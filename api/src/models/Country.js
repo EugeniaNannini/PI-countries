@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
     allowNull: false,
     primaryKey: true
     },
-    flag: {
+    img: {
       type: DataTypes.STRING,
       allowNull: false,
 
