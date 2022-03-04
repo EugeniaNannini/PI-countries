@@ -18,9 +18,9 @@ const GetApiInfo = async () =>{
  const apidata = await apiResponse.data.map(el=> {
      return{
          id: el.cca3,
-         name: el.name,
-         img: el.flags[0],
-         continent: el.continents[0],
+         name: el.name.common,
+         flags: el.flags[0],
+         continents: el.continents[0],
          capital: el.capital ? el.capital[0] : "Capital not found",
          //probar haciendo el.capital,map(el=>el) -->da un arreglo como rdo
          subregion: el.subregion ? el.subregion[0] : "Subregion not found",

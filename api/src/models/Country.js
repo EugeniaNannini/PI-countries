@@ -18,8 +18,8 @@ module.exports = (sequelize) => {
       allowNull: false,
 
     },
-    continent: {
-      type: DataTypes.STRING,
+    continents: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false
     },
     capital: {
