@@ -10,35 +10,44 @@ import Paginate from './Paginate';
 
 export default function Home(){
     const dispatch = useDispatch()
-    const allcountries = useSelector((state)=> state.countries)
-    const activities = useSelector((state) => state.activities)
+    //const allcountries = useSelector((state)=> state.countries)
+    const activities = useSelector((state) => state.activities);
+    const countriesCard = useSelector((state) => state.countries);
     // paginado ---
 
-//     const[currentPage,setCurrentPage] = useState(1)
+     const[currentPage,setCurrentPage] = useState(1) //pag 1
+     let countriesPerPage = 0;
+     if(currentPage === 1) {
+         countriesPerPage = 9;
+     }
+     if(countriesPerPage >= 2){
+     countriesPerPage = 10;
+     }
 //     const[countriesPerPage, setCountriesPerPage] = useState(9)
 
 //     //guarda el index del ult pais de la multiplicación
 //     //Posicion del ultimo pais
-//    const LastCountry = currentPage * countriesPerPage;
-//    //Posicion del primer pais
-//    const FirstCountry = LastCountry - countriesPerPage;
-//    // Se divide el array de acuerdo a la cantidad de paises necesarios (9)
+  const indexOfLastCountry = currentPage * countriesPerPage;//9
+// //    //Posicion del primer pais
+  const indexOfFirstCountry = indexOfLastCountry - countriesPerPage //0
+// //    // Se divide el array de acuerdo a la cantidad de paises necesarios (9)
 
-//    const currentCountries = allcountries.slice(FirstCountry, LastCountry); //allcountries:el arreglo
-//     //del estado.
-//     //const [order,setOrder] = useState("");
-//     const paginate = (pageNumber) =>{
-//         setCurrentPage(pageNumber)
-//     }
-
+const currentCountries = countriesCard?.slice(indexOfFirstCountry, indexOfLastCountry); 
+// //     //del estado.
+// const [order,setOrder] = useState("");
+const paginate = (pageNumbers) =>{
+        setCurrentPage(pageNumbers);
+    };
+//traigo paises cuando el componente se monta
     useEffect(()=>{
         dispatch(getCountries());
+        dispatch(getActivities());
+        // console.log(countries)
+
     },[dispatch])
 
-    useEffect(()=>{
-        dispatch(getActivities());
-    },[dispatch])
-//reseteo de paises
+
+//reseteo/volver a cargar de paises
     function HandleClick(e){
         e.preventDefault()
         dispatch(getActivities())
@@ -93,25 +102,29 @@ export default function Home(){
                     <option value='Des'>Less populated</option>
                 </select>
                
-                {/* <Paginate
-                countriesPerPage = {countriesPerPage}
-                allcountries={allcountries.length}
-                paginate={paginate}
-                currentPage={currentPage}>
-                </Paginate> */}
+                <Paginate
+                countriesPerPage = {countriesPerPage} //10
+                countriesCard={countriesCard?.length} //250
+                paginate={paginate}>
+                </Paginate>
                 
                
-                {allcountries?.map(el=>{
-                    return(
-                        <div>
-                            <Link to={'/home' + el.id}>
-                            <Card name={el.name} continent={el.continent} img={el.img}/>
-                            </Link>
-                        </div>
-                    )
-                })
-
-                }
+            <div>
+            {currentCountries?.map((country) => {
+                  return (
+                     <div key={country.id}>
+                        <Card
+                           name={country.name}
+                           flags={country.flags}
+                           continents={country.continents}
+                           id={country.id}
+                        />
+                     </div>
+                  );
+               })
+            }
+            
+            </div>
             </div>
         </div>
         

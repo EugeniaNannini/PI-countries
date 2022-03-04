@@ -4,7 +4,8 @@ const initialState = {
     activities:[],//se guardan las act de la bd
     detail: []
 }
-function rootReducer(state = initialState, action){
+
+export default function rootReducer(state = initialState, action){
     switch(action.type){
         case 'GET COUNTRIES':
             return{
@@ -85,4 +86,4 @@ function rootReducer(state = initialState, action){
     
 
 }
-export default rootReducer;
+// export default rootReducer;

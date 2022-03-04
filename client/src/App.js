@@ -6,6 +6,7 @@ import Home from '../src/components/Home';
 import LandingPage from '../src/components/Landingpage';
 
 
+
 export default function App() {
   return (
     <div className="App">

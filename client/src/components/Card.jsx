@@ -1,11 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-export default function Card({img, name, continent}){
+export default function Card({flags, name, continents, id}){
+    //console.log(name) 
     return(
-        <div>
-            <h3>{name}</h3>
-            <img src={img} alt='img not found' width='250px' height='175px'/>
-            <h3>{continent}</h3>
-        </div>
+        <Link to = {`/countries/${id}`}>
+            <div key={id}>
+                
+                <img 
+                  src = {flags} alt = "Not found"
+                />
+                <div key={id}>
+                    <p>{name}</p>
+                    <p>continents: {continents.toString()}</p>
+                </div>
+
+            </div>
+        </Link> 
     )
 }

@@ -14,7 +14,7 @@ export function getCountries(){
         console.log('INFO QUE ME TRAE LA API', json.data)
         dispatch({
             type: 'GET COUNTRIES',
-            payload: json.datadata
+            payload: json.data
         });
     }catch(error){
         console.log(error)
