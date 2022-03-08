@@ -53,27 +53,32 @@ const GetAllInfo = async () =>{
 }
 
 
-router.get('/countries', async (req,res) =>{
-    const {name} =req.query
-    const allcountries = await GetAllInfo();
-    if(name === undefined || !name){
-        return res.status(200).send(allcountries)
-    }else if(name){
-        const country = await Country.findAll({
-            where:{
-                name: name.toLowerCase(),
-            }
-        })
-        if(country.length !== 0){
-            res.status(200).json(country)
-        }else{
-            res.status(400).json('Country not found')
-        }
-    }
-})
+router.get('/countries', async (req, res) => {
+	// /countries?name=anguilla
+	const { name } = req.query;
+	let countries;
+	const countryDB = await Country.count();
+	countries =
+		countryDB === 0 ? await GetApiInfo() // asi que si la db esta vacia llamo a la api
+			: await DBinfo(); // si no saco de la bd
+	if (name) {
+		console.log('este es el name', name);
+		const byName = countries.filter((n) =>
+			n.name.toLowerCase().includes(name.toLowerCase())
+		);
+		byName.length
+			? res.status(200).send(byName)
+			: res.status(404).json({ error: 'Country not found' });
+	} else {
+		res.status(200).send(countries);
+	}
+});
 
 
-router.get('/countries/:id', async (req,res) =>{
+
+
+
+router.get('/countries/:id', async (req,res) => {
     const id = req.params.id
     const TotalCountries = await GetAllInfo()
     if(id){
@@ -83,44 +88,8 @@ router.get('/countries/:id', async (req,res) =>{
         res.status(400).send('Country not found')
     }
 })
-//  router.post('/activity', async (req,res) => {
-//      let{name, 
-//         difficulty, 
-//         duration, 
-//         season, 
-//         country} = req.body
-//      let TuristactivityCreated = await Activity.create({
-//          name, difficulty, duration, season})
-    
-//     if(country){
-//         await TuristactivityCreated.addCountries(country);
-        
-//     }
-//     return res.status(200).send('Activity created!')
-    
-//  });
 
-//  const getDbActivity = async () =>{
-//      return await Activity.findAll({
-//          include: {
-//              model:Country,
-//              attribute: ['name:', 'img','continent', 'capital'],
-//              through:{
-//                  attributes:[],
-//              },
-//          },
-//      });
-//  };
 
-//  router.get('/activities', async (req,res) =>{
-//      try{
-//      const activites = await getDbActivity();
-//      //const { name } = req.query;
-//      return res.status(200).send(activites);
-//      }catch(error){
-//          return res.status(400).send(error)
-//      }
-//  })
 
 //POST
 router.post('/activity', async (req, res)=> {
