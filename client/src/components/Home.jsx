@@ -1,13 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState} from "react";
 import { getCountries, getActivities, filterByContinent, filterByActivity, filterByAlphabeticalOrder, filterByPopulationOrder } from '../actions';
-import { Link } from 'react-router-dom'
 import Card from "./Card";
 import Paginate from './Paginate';
+import SearchBar from './Searchbar';
 
 
-
-
+//VER LO DE LAS PAGINAS, ME TRAE 10 PAISES EN LA PRIMER PAG EN LUGAR DE NUEVE   
 export default function Home(){
     const dispatch = useDispatch()
     //const allcountries = useSelector((state)=> state.countries)
@@ -23,7 +22,7 @@ export default function Home(){
      if(countriesPerPage >= 2){
      countriesPerPage = 10;
      }
-//     const[countriesPerPage, setCountriesPerPage] = useState(9)
+    //const[countriesPerPage, setCountriesPerPage] = useState(9)
 
 //     //guarda el index del ult pais de la multiplicación
 //     //Posicion del ultimo pais
@@ -71,6 +70,7 @@ const paginate = (pageNumbers) =>{
     return(
         <div>
             <button onClick={e=>{HandleClick(e)}}>Refresh Countries </button>
+            
             <div>
                 {/* filtro por continente */}
                 <select onChange={e=> handleFilterByContinent(e)}> 
@@ -101,6 +101,7 @@ const paginate = (pageNumbers) =>{
                     <option value='Asc'>More populated</option>
                     <option value='Des'>Less populated</option>
                 </select>
+                <SearchBar />
                
                 <Paginate
                 countriesPerPage = {countriesPerPage} //10

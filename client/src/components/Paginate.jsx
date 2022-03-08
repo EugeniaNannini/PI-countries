@@ -1,4 +1,5 @@
 import React from "react";
+import './paginate.css'
 
 export default function Paginate({ countriesPerPage, countriesCard, paginate }){
     const pageNumbers = []
@@ -7,11 +8,10 @@ export default function Paginate({ countriesPerPage, countriesCard, paginate }){
     }
     return (
         <nav>
-            <ul>
-                <h1>HOLA</h1>
+            <ul className="paginate">
                 {pageNumbers && pageNumbers.map(number =>(
                     <li key={number}>
-                    <button onClick={()=> paginate(number)}>{number}</button>
+                    <button className="btnPaginate" onClick={()=> paginate(number)}>{number}</button>
                     </li>
                 ))}
             

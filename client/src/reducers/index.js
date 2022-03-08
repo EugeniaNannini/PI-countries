@@ -2,7 +2,7 @@ const initialState = {
     countries : [],
     allcountries: [], //se guardan los paises de la bd
     activities:[],//se guardan las act de la bd
-    detail: []
+    detail: {}
 }
 
 export default function rootReducer(state = initialState, action){
@@ -16,7 +16,7 @@ export default function rootReducer(state = initialState, action){
         case 'GET_ACTIVITIES':
         return{
             ...state,
-            activites: action.payload
+            activites: action.payload //en occupations guardame el action.payload
         }
         case 'FILTER_BY_CONTINENT':
             const allcountries = state.countries
@@ -75,6 +75,11 @@ export default function rootReducer(state = initialState, action){
             return{
                 ...state,
                 detail: action.payload
+            }
+        case 'CREATE_ACTIVITY': //me devuelve el estado como esta porque yo voy a crearlo
+        //en una ruta nueva
+            return{
+                ...state,
             }
         
         default:

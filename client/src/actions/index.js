@@ -65,29 +65,46 @@ export function filterByPopulationOrder(payload){
 export function getByName(name){
     return async function (dispatch){
         try{
-            let res = await axios.get(`http://localhost:3001/countries?name=' + name`)
+            let res = await axios.get(`http://localhost:3001/countries?name=${name}`);
+            console.log("getcountries(name):",res.data)
             return dispatch({
                 type: 'GET_BY_NAME',
                 payload: res.data 
-            })
+            });
         }catch(error){
-            return error
+            console.log(error);
+            // return dispatch({
+            //     type: 'GET_BY_NAME',
+            //     payload: "No country"
+            // })
         }
     }
-}
+};
 export function getDetail(id){
     return async function (dispatch){
         try{
-            let res = await axios.get(`http://localhost:3001/countries/${id}`);
+            const json = await axios.get(`http://localhost:3001/countries/${id}`);
+            console.log("getDetail(id):",json.data)
             return dispatch({
                 type:'GET_DETAIL',
-                payload: res.data 
-            })
+                payload: json.data 
+            });
         }catch(error){
             console.log(error)
         }
     }
 
+};
+
+export function createActivity(payload){
+    return async function (dispatch){
+        var json = await axios.post("http://localhost:3001/activities", payload);//quiero hacer el post del payload, el payload
+        //es lo que me llega del front
+        return dispatch({
+            type: 'CREATE_ACTIVITY',
+            payload: json
+        })
+    }
 }
 
 
