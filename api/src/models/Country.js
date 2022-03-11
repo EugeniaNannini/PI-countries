@@ -13,13 +13,13 @@ module.exports = (sequelize) => {
     allowNull: false,
     primaryKey: true
     },
-    img: {
+    flag: {
       type: DataTypes.STRING,
       allowNull: false,
 
     },
     continents: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.STRING,
       allowNull: false
     },
     capital: {
@@ -31,11 +31,11 @@ module.exports = (sequelize) => {
       allowNull: true
     },
     area: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull:true
     },
     population: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull:true
     },
     createdInDb: {
