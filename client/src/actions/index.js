@@ -24,7 +24,7 @@ export function getCountries(){
 export function getActivities(){
     return async function(dispatch){
         try{
-        const json = await axios.get("http://localhost:3001/activities");
+        const json = await axios.get("http://localhost:3001/activity");
         console.log('TRAIGO ACTIVITIES' , json.data)
         dispatch({
             type: 'GET_ACTIVITIES',
@@ -83,11 +83,11 @@ export function getByName(name){
 export function getDetail(id){
     return async function (dispatch){
         try{
-            const json = await axios.get(`http://localhost:3001/countries/${id}`);
-            console.log("getDetail(id):",json.data)
+            const {data} = await axios.get(`http://localhost:3001/countries/${id}`);
+            //console.log("getDetail(id):",json.data)
             return dispatch({
                 type:'GET_DETAIL',
-                payload: json.data 
+                payload: data, 
             });
         }catch(error){
             console.log(error)
@@ -97,8 +97,8 @@ export function getDetail(id){
 };
 
 export function createActivity(payload){
-    return async function (dispatch){
-        var json = await axios.post("http://localhost:3001/activities", payload);//quiero hacer el post del payload, el payload
+    return async (dispatch) => {
+        var json = await axios.post("http://localhost:3001/activity", payload);//quiero hacer el post del payload, el payload
         //es lo que me llega del front
         return dispatch({
             type: 'CREATE_ACTIVITY',

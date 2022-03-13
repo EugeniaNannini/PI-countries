@@ -1,8 +1,8 @@
 const initialState = {
-    countries : [],
-    allcountries: [], //se guardan los paises de la bd
+    countries : [],  //todos los paises, para ordenar
+    allcountries: [], //el de filtros, el que se modifica
     activities:[],//se guardan las act de la bd
-    detail: {}
+    detail: []
 }
 
 export default function rootReducer(state = initialState, action){
@@ -21,45 +21,33 @@ export default function rootReducer(state = initialState, action){
         case 'FILTER_BY_CONTINENT':
             const allcountries = state.countries
             const continentFiltered = action.payload === "All" ?
-            allcountries : allcountries.filter(el => el.continent === action.payload)
+            allcountries : allcountries.filter(el => el.continents === action.payload)
             return{
                 ...state,
                 countries: continentFiltered
             };
         case 'FILTER_BY_ACTIVITY':
             const array = []
-            state.allcountries.map(el => el.activities.forEach(element => {
+            state.countries.map(el => el.activities.forEach(element => {
                 if(element.name === action.payload) {
                     array.push(el)
                 }
             }))
             return{
                 ...state,
-                countries: array
+                allcountries: array
             }
         case 'FILTER_BY_ALPHABETICAL_ORDER':
-            const orderAZ = action.payload === 'az' ?
-            state.countries.sort((a,b) =>{ //va comparando y va poniendo el orden en el arreglo dependiendo si son mas grandes o mas chicos
-                if(a.name > b.name){  //compara el que encuentra primero con el que encuentra despues
-                    //si es mayor retorna 1, que es la posicion 1
-                    return 1;
-                }
-                if(b.name > a.name){
-                    return -1;
-                }
-                return 0; //significa que lo devuelve igual si son iguales
-            }) :
-            state.allcountries.sort((a,b) =>{ //que este ordenado desc, de la otra forma, de menor a mayor
-                if(a.name > b.name){return -1;}
-                if(b.name < a.name){return +1;}
-                return 0;
-            })
+            const orderAZ = action.payload === 'asc' ?
+            state.countries.sort((a,b) => (a.name > b.name ? 1 : -1)): state.countries.sort((a, b) => (a.name > b.name ? -1 : 1)) 
+            console.log(orderAZ)
             return {
                 ...state,
-                allcountries:orderAZ
+                countries:orderAZ
             }
+
         case 'FILTER_BY_POPULATION_ORDER':
-            const population = action.payload === 'des' ? 
+            const population = action.payload === 'Des' ? 
             state.countries.sort((a,b) => a.population - b.population) :
             state.countries.sort((a,b) => b.population - a.population)
             return{

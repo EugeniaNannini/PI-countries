@@ -1,0 +1,78 @@
+.home{
+    background-image: url("https://images.pexels.com/photos/139366/pexels-photo-139366.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+}
+
+.refresh{
+    background-color: rgb(249, 249, 250);
+    border:1px solid #7105ff;
+    border-radius: 3px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    height:30px;
+    overflow: hidden;
+    margin: 15px 5px 5px 5px;
+    font-size: 12px;
+    color: black;
+
+}
+.cards{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+    border-radius: 8px;
+    margin-right: 10px;
+    margin-left: 20px;
+    width: 100%;
+    text-align: center;
+    
+}
+.linkact{
+    background-color: rgb(249, 249, 250);
+    border:1px solid #7105ff;
+    border-radius: 3px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    height:30px;
+    overflow: hidden;
+    margin: 15px 5px 5px 5px;
+    font-size: 12px;
+    color: rgb(14, 14, 14);
+    
+
+
+}
+
+.containerFilter{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+
+}
+.filter{
+    margin: 15px 5px 5px 5px;
+    border:1px solid #7105ff;
+    height:30px;
+    overflow: hidden;
+    width: 170px;
+    position:relative;
+    border-radius: 3px;
+
+}
+.filter .filselect{
+    background:white;
+    border: none;
+    font-size: 15px;
+    height: 30px;
+    padding: 5px;
+    width: 250px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+
+}
+.bfilter{
+    background-color: white;
+    border:none
+    
+}

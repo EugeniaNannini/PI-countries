@@ -16,7 +16,7 @@ export default function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/home" element={<Home />} />
       <Route path="/activities" element={<CreateActivity />} />
-      <Route path="/home/:id" element={<Detail />} />
+      <Route path="/countries/:id" element={<Detail />} />
     </Routes>
     </div>
     

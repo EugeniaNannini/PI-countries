@@ -4,9 +4,11 @@ import { getCountries, getActivities, filterByContinent, filterByActivity, filte
 import Card from "./Card";
 import Paginate from './Paginate';
 import SearchBar from './Searchbar';
+import './home.css';
+import { Link } from 'react-router-dom';
 
 
-//VER LO DE LAS PAGINAS, ME TRAE 10 PAISES EN LA PRIMER PAG EN LUGAR DE NUEVE   
+ 
 export default function Home(){
     const dispatch = useDispatch()
     //const allcountries = useSelector((state)=> state.countries)
@@ -17,12 +19,11 @@ export default function Home(){
      const[currentPage,setCurrentPage] = useState(1) //pag 1
      let countriesPerPage = 0;
      if(currentPage === 1) {
-         countriesPerPage = 9;
+        countriesPerPage = 9;
+     }else{
+        countriesPerPage = 10
+
      }
-     if(countriesPerPage >= 2){
-     countriesPerPage = 10;
-     }
-    //const[countriesPerPage, setCountriesPerPage] = useState(9)
 
 //     //guarda el index del ult pais de la multiplicación
 //     //Posicion del ultimo pais
@@ -33,7 +34,7 @@ export default function Home(){
 
 const currentCountries = countriesCard?.slice(indexOfFirstCountry, indexOfLastCountry); 
 // //     //del estado.
-// const [order,setOrder] = useState("");
+const [order,setOrder] = useState("");
 const paginate = (pageNumbers) =>{
         setCurrentPage(pageNumbers);
     };
@@ -41,7 +42,7 @@ const paginate = (pageNumbers) =>{
     useEffect(()=>{
         dispatch(getCountries());
         dispatch(getActivities());
-        // console.log(countries)
+        
 
     },[dispatch])
 
@@ -50,30 +51,46 @@ const paginate = (pageNumbers) =>{
     function HandleClick(e){
         e.preventDefault()
         dispatch(getActivities())
+        dispatch(getCountries());
     }
     //los payload son los value de las options
     function handleFilterByContinent(e){
+        e.preventDefault();
+        setCurrentPage(1);
         dispatch(filterByContinent(e.target.value))
+        
     }
     function handleFilterByActivity(e){
+        e.preventDefault();
         dispatch(filterByActivity(e.target.value))
+        setCurrentPage(1)
+        setOrder(`Order ${e.target.value}`)
     }
     function handleFilterByAlphabeticalOrder(e){
-        dispatch(filterByAlphabeticalOrder(e.target.value))
+        dispatch (filterByAlphabeticalOrder(e.target.value))
+        setCurrentPage(1);
+        setOrder(`Order ${e.target.value}`)
+        
     }
     function handleFilterByPopulationOrder(e){
         dispatch(filterByPopulationOrder(e.target.value))
+        setCurrentPage(1); 
+        setOrder(`Order ${e.target.value}`)
     }
 
 
 
     return(
-        <div>
-            <button onClick={e=>{HandleClick(e)}}>Refresh Countries </button>
-            
+        <div className='home'>
             <div>
+            <button onClick={e=>{HandleClick(e)}} className="refresh"> Refresh Countries </button>
+            </div>
+            <div className='containerFilter'>
                 {/* filtro por continente */}
-                <select onChange={e=> handleFilterByContinent(e)}> 
+                <div className='filter'>
+                
+                <select onChange={e=> handleFilterByContinent(e)} className='filselect'> 
+                    <option value="DEFAULT" hidden>Continents</option>
                     <option value='All'> All continents</option>
                     <option value='South America'>South America</option>
                     <option value='North America'>North America</option>
@@ -83,25 +100,43 @@ const paginate = (pageNumbers) =>{
 					<option value='Oceania'>Oceania</option>
 					<option value='Antarctica'>Antarctica</option>
                 </select>
+                </div>
+                
                 {/* filtro por actividad turística  */}
-                <select onChange={e=> handleFilterByActivity(e)}>
-                    <option value='Nothing'>Select activities</option>
+                <div className='filter'>
+                <select onChange={e=> handleFilterByActivity(e)} className='filselect'>
+                    <option value='DEFAULT' hidden>Sort by activities</option>
                     <option value='All'>All</option>
-                    {activities.map((i)=>(
-                        <option value={i.name}>{i.name}</option>
+                    {
+                    activities.map((i)=>(
+                        <option key={i.name} value={i.name}>{i.name}</option>
                     ))}
                 </select>
+                </div>
                 {/* filtro por orden alfabetico  */}
-                <select onChange={e=> handleFilterByAlphabeticalOrder(e)}>
-                    <option value='Asc'>A-Z</option>
-                    <option value='Des'>Z-A</option>
+                <div className='filter'>
+                <select onChange={e=>handleFilterByAlphabeticalOrder(e)} className='filselect'>
+                    <option value="DEFAULT"  hidden>Alphabetic</option>
+                    <option value='asc'>A-Z</option>
+                    <option value='des'>Z-A</option>
                 </select>
+                </div>
                 {/* filtro por cantidad de población  */}
-                <select onChange={e=> handleFilterByPopulationOrder(e)}>
+                <div className='filter'>
+                <select onChange={e=> handleFilterByPopulationOrder(e)} className='filselect'>
+                    <option value="DEFAULT" hidden>Sort by Population </option>
                     <option value='Asc'>More populated</option>
                     <option value='Des'>Less populated</option>
                 </select>
-                <SearchBar />
+                </div>
+                </div>
+                <div>
+                    <Link to='/activities'>
+                        <button className='linkact'> Create Activity</button>
+                
+                    </Link>
+                </div>
+                <SearchBar setCurrentPage={setCurrentPage} />
                
                 <Paginate
                 countriesPerPage = {countriesPerPage} //10
@@ -110,23 +145,25 @@ const paginate = (pageNumbers) =>{
                 </Paginate>
                 
                
-            <div>
+            <div className='cards'>
             {currentCountries?.map((country) => {
                   return (
                      <div key={country.id}>
+                        
                         <Card
                            name={country.name}
-                           flags={country.flags}
+                           flag={country.flag}
                            continents={country.continents}
                            id={country.id}
                         />
+                        
                      </div>
                   );
                })
             }
             
             </div>
-            </div>
+            
         </div>
         
     )
