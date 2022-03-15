@@ -1,7 +1,7 @@
 const initialState = {
-    countries : [],  //todos los paises, para ordenar
-    allcountries: [], //el de filtros, el que se modifica
-    activities:[],//se guardan las act de la bd
+    countries : [],  //todos los paises, para ordenar,mostrar
+    copiaCountries: [], //la copia, el de filtros, el que se modifica(estado auxiliar)
+    activities:[],//se guardan las act 
     detail: []
 }
 
@@ -11,15 +11,15 @@ export default function rootReducer(state = initialState, action){
             return{
                 ...state,
                 countries: action.payload,
-                allcountries: action.payload
+                copiaCountries: action.payload
             }
         case 'GET_ACTIVITIES':
         return{
             ...state,
-            activites: action.payload //en occupations guardame el action.payload
+            activities: action.payload 
         }
         case 'FILTER_BY_CONTINENT':
-            const allcountries = state.countries
+            const allcountries = state.copiaCountries;
             const continentFiltered = action.payload === "All" ?
             allcountries : allcountries.filter(el => el.continents === action.payload)
             return{
@@ -27,16 +27,18 @@ export default function rootReducer(state = initialState, action){
                 countries: continentFiltered
             };
         case 'FILTER_BY_ACTIVITY':
-            const array = []
-            state.countries.map(el => el.activities.forEach(element => {
-                if(element.name === action.payload) {
-                    array.push(el)
-                }
-            }))
+            const act = state.countries
+            let result
+            if(action.payload === 'All') result = state.copiaCountries
+            result = act.filter((e) => e.activities[0]?.name === action.payload)
             return{
                 ...state,
-                allcountries: array
-            }
+                countries : result
+        };
+    
+            
+            
+
         case 'FILTER_BY_ALPHABETICAL_ORDER':
             const orderAZ = action.payload === 'asc' ?
             state.countries.sort((a,b) => (a.name > b.name ? 1 : -1)): state.countries.sort((a, b) => (a.name > b.name ? -1 : 1)) 

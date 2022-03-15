@@ -182,7 +182,7 @@ export default function CreateActivities(){
                             Select countries
                         </option>
                         {countriesSelected.map((country)=>(
-                            <option key={country.name} value={country.name}>
+                            <option key={country.name} value={country.id}>
                                     {country.name}
                             </option>
                             

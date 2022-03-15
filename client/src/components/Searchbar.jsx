@@ -1,17 +1,27 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { getByName } from "../actions";
+import { getByName, getCountries } from "../actions";
 import "./searchbar.css"
 
 export default function SearchBar(){
     const dispatch = useDispatch()
+    
     const [name,setName] = useState("") //estado local, lo seteo en un string vacio
     //guardo todo lo que vaya apareciendo en el input
 
     // useEffect(() => {
     //     dispatch(getByName(name));
     // },[dispatch, name]);
+
+    // function validator () { 
+    //     let error = [];
+    //     if(input.name !== countries ){
+
+    //     }
+
+
+    // }
 
     function HandleChange(e){
         e.preventDefault()
@@ -26,9 +36,11 @@ export default function SearchBar(){
 
     return(
         <div className="container">
+            
             <input className="input"
             type='text'
             placeholder= 'Search..'
+            // value={input.name}
             onChange={(e)=> HandleChange(e)}>
             </input>
             <button className="searchButton" onClick={(e) => HandleSubmit(e)} type ="submit">Search</button>
@@ -37,3 +49,15 @@ export default function SearchBar(){
 
 
 }
+
+
+
+/* <div className="container">
+<input className="input"
+type='text'
+placeholder= 'Search..'
+onChange={(e)=> HandleChange(e)}>
+</input>
+<button className="searchButton" onClick={(e) => HandleSubmit(e)} type ="submit">Search</button>
+</div>
+); */

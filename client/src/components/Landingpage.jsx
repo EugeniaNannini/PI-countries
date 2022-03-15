@@ -4,10 +4,10 @@ import './landingpage.css';
 
 export default function LandingPage(){
     return(
-        <div className="img">
-            <h1 className="welcome">Welcome</h1>
+        <div className="imglanding">
+            {/* <h1 className="welcome">Welcome</h1> */}
             <Link to='/home'>
-                <button className="button"> Start </button>
+                <button className="button"> Welcome to the Countries page </button>
             </Link>
         </div>
 

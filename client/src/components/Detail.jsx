@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getDetail } from "../actions";
 import { useParams } from "react-router-dom";
+import './detail.css'
 
 export default function CountryDetail(){
-    const country = useSelector((state) => state.detail)
-    const act = country.activities || [];
+    const countryDetail = useSelector((state) => state.detail)
+    // const act = countryDetail.activities || [];
     const dispatch = useDispatch();
     const { id } = useParams();
 
@@ -19,33 +20,49 @@ export default function CountryDetail(){
 
     return(
         
-        <div>
-            <h1>{country.name}</h1>
+        <div className="card">
+            <h1 className="title">{countryDetail.name}</h1>
             
-            <img src={country.flag} alt= "" height= "400px" width="550px"></img>
+            <img src={countryDetail.flag} alt= "" height= "400px" width="550px"></img>
+            <div className="text">
 
-            <div> Continents: {country.continents}</div>
-            <div>id: {country.id}</div>
-            <div>Capital:{country.capital}</div>
-            <div>Subregion:{country.subregion}</div>
-            <div>Area:{country.area} km2</div>
-            <div>Population:{country.population}</div>
+            <div> Continents: {countryDetail.continents}</div>
+            <div>id: {countryDetail.id}</div>
+            <div>Capital:{countryDetail.capital}</div>
+            <div>Subregion:{countryDetail.subregion}</div>
+            <div>Area:{countryDetail.area} km2</div>
+            <div>Population:{countryDetail.population}</div>
+            </div>
+            <div className="text"> Activities:
+                
+                { 
+                
+                countryDetail.activities? countryDetail.activities.map(activity =>(
+                    <div key={activity.id}>
+                     <h3>Activity: {activity.name}</h3>
+                     <h4>Difficulty: {activity.difficulty}</h4>
+                     <h4>Duration: {activity.duration} hs</h4>
+                     <h4>Season: {activity.season}</h4>
+                    </div>
+                )) 
+                : <h3>"Activities not found"</h3>
+                                                                
+                }
             
+            </div>
+            {/* : <h3>Activities not found</h3> */}
+        
+        
 
-            <div>Activity: {act.map(a =>
-             <span >
-             <div>Name: {a.name}</div>
-             <div>Difficulty: {a.difficulty}</div>
-             <div>Duration: {a.duration}</div>
-             <div>Season: {a.season}</div>
-             </span>)} 
-             </div>
+
+                  
 
         <Link to='/home'>
-            <button>Back</button>
+            <button className="buttondetail">Back</button>
         </Link>
                           
 
+        
         </div>
         
         

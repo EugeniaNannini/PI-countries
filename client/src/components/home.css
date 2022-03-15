@@ -2,6 +2,7 @@
     background-image: url("https://images.pexels.com/photos/139366/pexels-photo-139366.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
     background-size: cover;
     background-repeat: no-repeat;
+    flex-direction: column;
     
 }
 
@@ -17,19 +18,38 @@
     color: black;
 
 }
-.cards{
+.cards{ 
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
+    flex-direction: column;
+    flex-flow: wrap;
     flex-wrap: wrap;
     padding: 20px;
     border-radius: 8px;
-    margin-right: 10px;
-    margin-left: 20px;
-    width: 100%;
-    text-align: center;
+    position: relative;
+    overflow: hidden; 
+    /* width: 100%; */
+    /* text-align: center; */
+
     
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 15px; 
 }
+
+    
+
+/* .cards::before{
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(0);
+} */
 .linkact{
     background-color: rgb(249, 249, 250);
     border:1px solid #7105ff;

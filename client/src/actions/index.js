@@ -8,19 +8,34 @@ import axios from 'axios';
 //create/post activity para componente createActivity
 
 export function getCountries(){
-    return async function (dispatch)  {
-        try{
-        const json = await axios.get("http://localhost:3001/countries");
-        console.log('INFO QUE ME TRAE LA API', json.data)
-        dispatch({
-            type: 'GET COUNTRIES',
-            payload: json.data
-        });
-    }catch(error){
-        console.log(error)
-    }
-    };
-};
+    return function (dispatch)  {
+    //return async function (dispatch)  {
+    //     try{
+    //     const json = await axios.get("http://localhost:3001/countries");
+    //     console.log('INFO QUE ME TRAE LA API', json.data)
+    //     dispatch({
+    //         type: 'GET COUNTRIES',
+    //         payload: json.data
+    //     });
+    // }catch(error){
+    //     console.log(error)
+    // }
+//};
+ axios.get("http://localhost:3001/countries")
+ .then((response) => {
+     dispatch({
+         type: 'GET COUNTRIES',
+         payload: response.data 
+     })
+
+ })
+ .catch((error) => {
+    console.log(error)
+ })
+
+}};
+
+
 export function getActivities(){
     return async function(dispatch){
         try{
@@ -98,11 +113,11 @@ export function getDetail(id){
 
 export function createActivity(payload){
     return async (dispatch) => {
-        var json = await axios.post("http://localhost:3001/activity", payload);//quiero hacer el post del payload, el payload
+        var {data} = await axios.post("http://localhost:3001/activity", payload);//quiero hacer el post del payload, el payload
         //es lo que me llega del front
         return dispatch({
             type: 'CREATE_ACTIVITY',
-            payload: json
+            payload: data
         })
     }
 }

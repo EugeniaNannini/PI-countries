@@ -1,0 +1,35 @@
+.title{
+    padding-left: 180px;
+}
+.text{
+    text-align:center;
+    padding-right: 50px;
+    padding-left: 50px;
+    padding-top: 20px;
+
+}
+.buttondetail{
+    color: #ffff;
+    background-color: rgb(13, 31, 228);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 15%;
+    transition: background-color 100ms ease, font-weight 100ms ease;;
+    outline: none;
+    cursor: pointer;
+}
+.card{
+    display: block;
+    background-size: cover;
+    border-style:hidden;
+    border-color: black;
+    border-radius: 7px;
+    padding-top: 10px;
+    color: black;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 120%;
+    background-image: url("https://images.pexels.com/photos/139366/pexels-photo-139366.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+    font-weight: bolder;
+
+
+}

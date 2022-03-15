@@ -11,33 +11,51 @@ import { Link } from 'react-router-dom';
  
 export default function Home(){
     const dispatch = useDispatch()
-    //const allcountries = useSelector((state)=> state.countries)
     const activities = useSelector((state) => state.activities);
     const countriesCard = useSelector((state) => state.countries);
+    console.log(activities)
     // paginado ---
 
      const[currentPage,setCurrentPage] = useState(1) //pag 1
-     let countriesPerPage = 0;
-     if(currentPage === 1) {
-        countriesPerPage = 9;
-     }else{
-        countriesPerPage = 10
-
+     const [countriesPerPage] = useState(10)   
+     const indexOfLastCountry = currentPage * countriesPerPage //Posicion del ultimo pais
+     const indexOfFirstCountry = indexOfLastCountry - countriesPerPage //Posicion del primer pais
+     const currentCountries = currentPage === 1 ?  //si estoy en la primer pag recorro countr y devuelvo posic en el primer pais - el ult menos 1
+     countriesCard.slice(indexOfFirstCountry, indexOfLastCountry -1) :    // Se divide el array de acuerdo a la cantidad de paises necesarios (9)
+     countriesCard.slice(indexOfFirstCountry, indexOfLastCountry)
+     const paginate = (pageNumbers)=>{
+         setCurrentPage(pageNumbers)
      }
+     const [order,setOrder] = useState("");
+   
+    
+    
+    
+    
+    //---------- LO QUE HABIA HECHO ANTES -----------
+     // let countriesPerPage = 0;
+    // if(currentPage === 1) {
+    //     countriesPerPage = 9
+    
+    // }else {
+    //     countriesPerPage = 10
+    
+    // }
 
 //     //guarda el index del ult pais de la multiplicación
 //     //Posicion del ultimo pais
-  const indexOfLastCountry = currentPage * countriesPerPage;//9
+//const indexOfLastCountry = currentPage * countriesPerPage;//9
 // //    //Posicion del primer pais
-  const indexOfFirstCountry = indexOfLastCountry - countriesPerPage //0
+ // const indexOfFirstCountry = indexOfLastCountry - countriesPerPage //0
 // //    // Se divide el array de acuerdo a la cantidad de paises necesarios (9)
 
-const currentCountries = countriesCard?.slice(indexOfFirstCountry, indexOfLastCountry); 
+//const currentCountries = countriesCard?.slice(indexOfFirstCountry, indexOfLastCountry); 
 // //     //del estado.
-const [order,setOrder] = useState("");
-const paginate = (pageNumbers) =>{
-        setCurrentPage(pageNumbers);
-    };
+//const paginate = (pageNumbers) =>{
+        //setCurrentPage(pageNumbers);
+   // };
+
+
 //traigo paises cuando el componente se monta
     useEffect(()=>{
         dispatch(getCountries());
@@ -45,7 +63,7 @@ const paginate = (pageNumbers) =>{
         
 
     },[dispatch])
-
+    
 
 //reseteo/volver a cargar de paises
     function HandleClick(e){
@@ -58,14 +76,24 @@ const paginate = (pageNumbers) =>{
         e.preventDefault();
         setCurrentPage(1);
         dispatch(filterByContinent(e.target.value))
+        setOrder(`Order ${e.target.value}`)
         
     }
     function handleFilterByActivity(e){
-        e.preventDefault();
-        dispatch(filterByActivity(e.target.value))
         setCurrentPage(1)
+        if(e.target.valu === "All"){
+            dispatch(getCountries())
+            setCurrentPage(1)
+        }
+        dispatch (filterByActivity(e.target.value))
         setOrder(`Order ${e.target.value}`)
-    }
+    } 
+
+        // e.preventDefault();
+        // dispatch(filterByActivity(e.target.value))
+        // setCurrentPage(1)
+        // setOrder(`Order ${e.target.value}`)
+    
     function handleFilterByAlphabeticalOrder(e){
         dispatch (filterByAlphabeticalOrder(e.target.value))
         setCurrentPage(1);
@@ -77,6 +105,8 @@ const paginate = (pageNumbers) =>{
         setCurrentPage(1); 
         setOrder(`Order ${e.target.value}`)
     }
+
+    
 
 
 
@@ -105,12 +135,11 @@ const paginate = (pageNumbers) =>{
                 {/* filtro por actividad turística  */}
                 <div className='filter'>
                 <select onChange={e=> handleFilterByActivity(e)} className='filselect'>
-                    <option value='DEFAULT' hidden>Sort by activities</option>
+                    <option  hidden>Sort by activities</option>
                     <option value='All'>All</option>
                     {
-                    activities.map((i)=>(
-                        <option key={i.name} value={i.name}>{i.name}</option>
-                    ))}
+                    activities.map((el)=> (
+                    <option key={el.name} value={el.name}>{el.name}</option>))}
                 </select>
                 </div>
                 {/* filtro por orden alfabetico  */}
