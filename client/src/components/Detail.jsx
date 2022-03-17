@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { getDetail } from "../actions";
+import { GetdeleteDetail, getDetail } from "../actions";
 import { useParams } from "react-router-dom";
 import './detail.css'
 
@@ -13,6 +13,9 @@ export default function CountryDetail(){
 
     useEffect(()=>{
         dispatch(getDetail(id))
+        return function (){
+            dispatch(GetdeleteDetail())
+        }
     },[dispatch, id]);
 
     // console.log('esto es el detail', id)

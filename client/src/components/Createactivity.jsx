@@ -25,7 +25,7 @@ export default function CreateActivities(){
     const dispatch = useDispatch();
     const countriesSelected = useSelector((state) => state.countries)
     const [error,setError] = useState({})
-    
+    const act = useSelector((state) => state.activities)
     //guardo el formulario en el estado
     const [input, setInput] = useState({ //le paso todo lo que necesita el post
         name:"",
@@ -64,16 +64,34 @@ export default function CreateActivities(){
         }))
     }
     function handleSelect(e) {
+       
+    if(!input.countries.includes(e.target.value)){
+        
         setInput({
             ...input,
             countries: [...input.countries, e.target.value]
-        })
+        });
+    }else{
+    alert("Country selected")
+}
         setError(validate({
             ...input,
             countries: [...input.countries, e.target.value]
         }))
         
     }
+    function handleSelectDifficulty(e){
+        setInput({
+            ...input,
+            difficulty: [...input.difficulty, e.target.value]
+        });
+        setError(validate({
+            ...input,
+            [e.target.name] : e.target.name
+        }))
+        }
+    
+    
     function handleCheck(e){
         if(e.target.checked){
         setInput({
@@ -89,6 +107,7 @@ export default function CreateActivities(){
     }
 
     function handleSubmit(e){
+
         e.preventDefault()
         dispatch(createActivity(input))
         alert('Activity Created')
@@ -131,11 +150,10 @@ export default function CreateActivities(){
                         <select 
                         required
                         value={input.difficulty}
-                        onChange={(e)=> handleChange(e)} 
+                        onChange={(e)=> handleSelectDifficulty(e)} 
                         name='difficulty'
-                        placeholder="Between 1 and 5"
                         >
-                            <option hidden> Select difficulty</option>
+                            {/* <option hidden> Select difficulty</option> */}
                             <option value={1}>1</option>
                             <option value={2}>2</option>
                             <option value={3}>3</option>
@@ -153,6 +171,7 @@ export default function CreateActivities(){
                         <label>Duration: (hs) </label>
                         <input
                         required
+                        min={0}
                         type='number'
                         value={input.duration} 
                         name='duration' 
@@ -163,10 +182,10 @@ export default function CreateActivities(){
                     </div>
                     <div className="select">
                         <label>Season:</label>
-                        <label><input type='checkbox' name='Summer' value='Summer' onChange={e =>handleCheck(e)}/> Summer </label>
-                        <label><input type='checkbox' name='Winter' value='Winter' onChange={e =>handleCheck(e)}/> Winter </label>
-                        <label><input type='checkbox' name='Autumn' value='Autumn' onChange={e =>handleCheck(e)}/> Autumn </label>
-                        <label><input type='checkbox' name='Spring' value='Spring' onChange={e =>handleCheck(e)}/> Spring </label>
+                        <label><input  required type='checkbox' name='Summer' value='Summer' onChange={e =>handleCheck(e)}/> Summer </label>
+                        <label><input required type='checkbox' name='Winter' value='Winter' onChange={e =>handleCheck(e)}/> Winter </label>
+                        <label><input required type='checkbox' name='Autumn' value='Autumn' onChange={e =>handleCheck(e)}/> Autumn </label>
+                        <label><input required type='checkbox' name='Spring' value='Spring' onChange={e =>handleCheck(e)}/> Spring </label>
                     </div>
                         {error.season && ( <p className="error">{error.season}</p>
                       )}
@@ -174,19 +193,17 @@ export default function CreateActivities(){
                     <div className="select"> {/* seleccion de paises que van a tener esa actividad */}
                     <label>Select Countries related to this activity:</label>
                         <select
-                        required 
+
                         name='countries' 
                         
                         onChange={(e)=> handleSelect(e)} >
-                        <option hidden>
-                            Select countries
-                        </option>
+
                         {countriesSelected.map((country)=>(
                             <option key={country.name} value={country.id}>
                                     {country.name}
                             </option>
                             
-    
+     
                         ))}
                         </select>
                          {error.countries && (
@@ -207,11 +224,10 @@ export default function CreateActivities(){
                     </div>               
 				
             <div>
-            <button type='submit'>
+            <button disabled={!input.countries} type='submit'>
 				Create Activity
 			</button> 
-            {/* <button type="reset" onClick={(e)=> handleReset(e)}
-            >Reset Form </button> */}
+            
             </div>                          
 
         </form>

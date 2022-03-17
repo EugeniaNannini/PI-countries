@@ -3,7 +3,6 @@ import './paginate.css'
 
 export default function Paginate({ countriesPerPage, countriesCard, paginate }){
     const pageNumbers = []
-    // if(pageNumbers <= 25){
     for(let i=1; i <= Math.ceil(countriesCard/countriesPerPage); i++){ //math.ceil me redondea para arriba
         pageNumbers.push(i)
     }

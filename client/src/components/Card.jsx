@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import './card.css';
 
-export default function Card({id, flag, name, continents}){
+export default function Card({id, flag, name, continents, area}){
     //console.log(name) 
     return(
         <div>
@@ -18,6 +18,7 @@ export default function Card({id, flag, name, continents}){
                 <div className="props">
                     <p className="nameCountry"> Country: {name}</p>
                     <p className="continentCountry">Continents: {continents}</p>
+                    <p className="continentCountry">Area: {area}</p>
                 </div>
 
             </div>

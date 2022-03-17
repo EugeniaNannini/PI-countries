@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState} from "react";
-import { getCountries, getActivities, filterByContinent, filterByActivity, filterByAlphabeticalOrder, filterByPopulationOrder } from '../actions';
+import { getCountries, getActivities, filterByContinent, filterByActivity, filterByAlphabeticalOrder, filterByPopulationOrder, filterByArea } from '../actions';
 import Card from "./Card";
 import Paginate from './Paginate';
 import SearchBar from './Searchbar';
@@ -11,9 +11,10 @@ import { Link } from 'react-router-dom';
  
 export default function Home(){
     const dispatch = useDispatch()
-    const activities = useSelector((state) => state.activities);
+    let activities = useSelector((state) => state.activities);
     const countriesCard = useSelector((state) => state.countries);
     console.log(activities)
+
     // paginado ---
 
      const[currentPage,setCurrentPage] = useState(1) //pag 1
@@ -27,33 +28,21 @@ export default function Home(){
          setCurrentPage(pageNumbers)
      }
      const [order,setOrder] = useState("");
-   
-    
-    
-    
-    
-    //---------- LO QUE HABIA HECHO ANTES -----------
-     // let countriesPerPage = 0;
-    // if(currentPage === 1) {
-    //     countriesPerPage = 9
-    
-    // }else {
-    //     countriesPerPage = 10
-    
-    // }
 
-//     //guarda el index del ult pais de la multiplicación
-//     //Posicion del ultimo pais
-//const indexOfLastCountry = currentPage * countriesPerPage;//9
-// //    //Posicion del primer pais
- // const indexOfFirstCountry = indexOfLastCountry - countriesPerPage //0
-// //    // Se divide el array de acuerdo a la cantidad de paises necesarios (9)
 
-//const currentCountries = countriesCard?.slice(indexOfFirstCountry, indexOfLastCountry); 
-// //     //del estado.
-//const paginate = (pageNumbers) =>{
-        //setCurrentPage(pageNumbers);
-   // };
+
+
+
+
+     var hash = {};
+     console.log(hash)
+     activities = activities.filter(function(current) {
+     var exists = !hash[current.name];
+     hash[current.name] = true;
+     return exists;
+     
+ });
+
 
 
 //traigo paises cuando el componente se monta
@@ -81,7 +70,7 @@ export default function Home(){
     }
     function handleFilterByActivity(e){
         setCurrentPage(1)
-        if(e.target.valu === "All"){
+        if(e.target.value === "All"){
             dispatch(getCountries())
             setCurrentPage(1)
         }
@@ -89,10 +78,6 @@ export default function Home(){
         setOrder(`Order ${e.target.value}`)
     } 
 
-        // e.preventDefault();
-        // dispatch(filterByActivity(e.target.value))
-        // setCurrentPage(1)
-        // setOrder(`Order ${e.target.value}`)
     
     function handleFilterByAlphabeticalOrder(e){
         dispatch (filterByAlphabeticalOrder(e.target.value))
@@ -103,6 +88,11 @@ export default function Home(){
     function handleFilterByPopulationOrder(e){
         dispatch(filterByPopulationOrder(e.target.value))
         setCurrentPage(1); 
+        setOrder(`Order ${e.target.value}`)
+    }
+    function handleFilterByArea(e){
+        dispatch(filterByArea(e.target.value))
+        setCurrentPage(1)
         setOrder(`Order ${e.target.value}`)
     }
 
@@ -135,7 +125,7 @@ export default function Home(){
                 {/* filtro por actividad turística  */}
                 <div className='filter'>
                 <select onChange={e=> handleFilterByActivity(e)} className='filselect'>
-                    <option  hidden>Sort by activities</option>
+                    <option value= "DEFAULT" hidden>Sort by activities</option>
                     <option value='All'>All</option>
                     {
                     activities.map((el)=> (
@@ -149,6 +139,16 @@ export default function Home(){
                     <option value='asc'>A-Z</option>
                     <option value='des'>Z-A</option>
                 </select>
+                </div>
+                {/* filtro por area */}
+                <div onChange={e=>handleFilterByArea(e)} className='filter'>
+                    <select className='filselect'>
+                        <option value="DEFAULT" hidden> Area</option>
+                        <option value= 'asc'>More area</option>
+                        <option value= 'des'>Less area</option>
+
+
+                    </select>
                 </div>
                 {/* filtro por cantidad de población  */}
                 <div className='filter'>
@@ -184,6 +184,7 @@ export default function Home(){
                            flag={country.flag}
                            continents={country.continents}
                            id={country.id}
+                           area={country.area}
                         />
                         
                      </div>

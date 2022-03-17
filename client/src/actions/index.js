@@ -50,13 +50,13 @@ export function getActivities(){
         }
     };
 };   
-export function filterByContinent(payload){
-    return{
-        type: 'FILTER_BY_CONTINENT',
-        payload,
-    }
+// export function filterByContinent(payload){
+//     return{
+//         type: 'FILTER_BY_CONTINENT',
+//         payload,
+//     }
 
-}
+// }
 export function filterByActivity(payload){
     return{
         type:'FILTER_BY_ACTIVITY',
@@ -81,17 +81,14 @@ export function getByName(name){
     return async function (dispatch){
         try{
             let res = await axios.get(`http://localhost:3001/countries?name=${name}`);
-            console.log("getcountries(name):",res.data)
+            // console.log("getcountries(name):",res.data)
             return dispatch({
                 type: 'GET_BY_NAME',
                 payload: res.data 
             });
         }catch(error){
-            console.log(error);
-            // return dispatch({
-            //     type: 'GET_BY_NAME',
-            //     payload: "No country"
-            // })
+            console.log('no se encontro', error);
+            alert('Not found')
         }
     }
 };
@@ -121,6 +118,44 @@ export function createActivity(payload){
         })
     }
 }
+
+export function filterByArea(payload){
+    return {
+        type: 'FILTER_BY_AREA',
+        payload,
+
+    }
+}
+export function filterByContinent(continent){
+    return async (dispatch) => {
+        try{
+            const {data} = await axios.get(`http://localhost:3001/filter/${continent}`);
+            return dispatch({
+                type:'FILTER_BY_CONTINENT',
+                payload: data, 
+            });
+        }catch(error){
+            console.log(error)
+        }
+
+}}
+
+export function GetdeleteDetail(){
+    return {
+        type: 'GET_DELETE_DETAIL'
+    }
+}
+
+// export function filterByAlphabeticalOrder(order){
+//     return async (dispatch) => {
+//         var {data} = await axios.get(`http://localhost:3001/countries/ordenamiento/${order}`);//quiero hacer el post del payload, el payload
+//         //es lo que me llega del front
+//         return dispatch({
+//             type: 'FILTER_BY_ALPHABETICAL_ORDER',
+//             payload: data
+//         })
+//     }
+// }
 
 
  
