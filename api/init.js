@@ -4,7 +4,7 @@ const {Country} = require ('./src/db');
 
 const getCountries = async() => {
     const api = await axios.get("https://restcountries.com/v3/all");
-    console.log(api)
+    // console.log(api)
     const apiInfo = await api.data.map(e => {
     Country.findOrCreate({
         where:{
