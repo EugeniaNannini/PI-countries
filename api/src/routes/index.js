@@ -75,11 +75,6 @@ router.post("/activity", async (req,res) => {
 
 })  
 
-
-
-
-
-
 router.get('/activity',  async (req,res)=>{
       
     try{
@@ -106,7 +101,48 @@ router.get('/filter/:continent', async (req,res)=>{
         console.log(error)
     }
 })
+
+router.delete('/activity/:id', async (req,res) => {
+    const {id} = req.params
+    try{
+        const actDelete = await Activity.destroy({
+            where:{
+                id:id
+            }
+        })
+        actDelete ?
+        res.status(200).send('activity deleted') :
+        res.status(404).send('couldnt delete')
+
+    }catch(error){
+        console.log(error)
+    }
+
+
+})
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // router.get('/countries/ordenamiento/:order', async (req,res) => {
 //     const {order} = req.params;
 //     try{
