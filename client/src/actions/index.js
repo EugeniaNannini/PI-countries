@@ -143,6 +143,7 @@ export function filterByContinent(continent){
 export function GetdeleteDetail(){
     return {
         type: 'GET_DELETE_DETAIL'
+
     }
 }
 

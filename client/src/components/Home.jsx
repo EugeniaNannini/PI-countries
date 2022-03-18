@@ -15,6 +15,7 @@ export default function Home(){
     const countriesCard = useSelector((state) => state.countries);
     console.log(activities)
 
+
     // paginado ---
 
      const[currentPage,setCurrentPage] = useState(1) //pag 1
@@ -35,7 +36,7 @@ export default function Home(){
 
 
      var hash = {};
-     console.log(hash)
+
      activities = activities.filter(function(current) {
      var exists = !hash[current.name];
      hash[current.name] = true;
@@ -49,6 +50,7 @@ export default function Home(){
     useEffect(()=>{
         dispatch(getCountries());
         dispatch(getActivities());
+        
         
 
     },[dispatch])
@@ -83,6 +85,7 @@ export default function Home(){
         dispatch (filterByAlphabeticalOrder(e.target.value))
         setCurrentPage(1);
         setOrder(`Order ${e.target.value}`)
+
         
     }
     function handleFilterByPopulationOrder(e){
@@ -144,8 +147,8 @@ export default function Home(){
                 <div onChange={e=>handleFilterByArea(e)} className='filter'>
                     <select className='filselect'>
                         <option value="DEFAULT" hidden> Area</option>
-                        <option value= 'asc'>More area</option>
-                        <option value= 'des'>Less area</option>
+                        <option value= 'asc' name="asc" >More area</option>
+                        <option value= 'des' name="des">Less area</option>
 
 
                     </select>

@@ -16,10 +16,10 @@ function validate(input){
     }else if(!input.season){
         error.season = "Season is required"
     }else if(!input.countries){
-        error.countries = "Country si required"
+        error.countries = "countries required"
     }
     return error;
-}
+    }
 
 export default function CreateActivities(){
     const dispatch = useDispatch();
@@ -31,7 +31,7 @@ export default function CreateActivities(){
         name:"",
         difficulty:"",
         duration:"",
-        season: ['Summer','Spring','Autumn','Winter'],
+        season: "",
         countries:[]
     })
 
@@ -92,19 +92,7 @@ export default function CreateActivities(){
         }
     
     
-    function handleCheck(e){
-        if(e.target.checked){
-        setInput({
-            ...input,
-            season:e.target.value
-        })
-        setError(validate({
-            ...input,
-            [e.target.name] : e.target.name
-        }))
-        }
-    
-    }
+
 
     function handleSubmit(e){
 
@@ -115,14 +103,14 @@ export default function CreateActivities(){
             name:"",
             difficulty:"",
             duration:"",
-            season: ['Summer','Spring','Autumn','Winter'],
+            season: "",
             countries:[]
         })
 
         console.log(input)
     }
     
-    console.log('countries selected ', countriesSelected)
+    // console.log('countries selected ', countriesSelected)
     return(
         <div className="form">
             
@@ -148,6 +136,7 @@ export default function CreateActivities(){
                     <div className="select">
                         <label>Difficulty:</label>
                         <select 
+                        multiple={false}
                         required
                         value={input.difficulty}
                         onChange={(e)=> handleSelectDifficulty(e)} 
@@ -171,7 +160,7 @@ export default function CreateActivities(){
                         <label>Duration: (hs) </label>
                         <input
                         required
-                        min={0}
+                        min={1}
                         type='number'
                         value={input.duration} 
                         name='duration' 
@@ -182,10 +171,13 @@ export default function CreateActivities(){
                     </div>
                     <div className="select">
                         <label>Season:</label>
-                        <label><input  required type='checkbox' name='Summer' value='Summer' onChange={e =>handleCheck(e)}/> Summer </label>
-                        <label><input required type='checkbox' name='Winter' value='Winter' onChange={e =>handleCheck(e)}/> Winter </label>
-                        <label><input required type='checkbox' name='Autumn' value='Autumn' onChange={e =>handleCheck(e)}/> Autumn </label>
-                        <label><input required type='checkbox' name='Spring' value='Spring' onChange={e =>handleCheck(e)}/> Spring </label>
+                        <select multiple={false}  name="season" required value={input.season} onChange={e =>handleChange(e)}>
+                            <option value="Summer">Summer</option>
+                            <option value="Winter">Winter</option>
+                            <option value="Autumn">Autumn</option>
+                            <option value="Spring">Spring</option>
+                        </select>
+                    
                     </div>
                         {error.season && ( <p className="error">{error.season}</p>
                       )}
@@ -224,7 +216,7 @@ export default function CreateActivities(){
                     </div>               
 				
             <div>
-            <button disabled={!input.countries} type='submit'>
+            <button disabled={!input.countries.length} type='submit'>
 				Create Activity
 			</button> 
             

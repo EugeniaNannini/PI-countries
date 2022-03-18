@@ -1,6 +1,6 @@
 const initialState = {
-    countries : [],  //todos los paises, para ordenar,mostrar
-    copiaCountries: [], //la copia, el de filtros, el que se modifica(estado auxiliar)
+    countries : [],  //copia PARa filtrar
+    copiaCountries: [], //GLOBAL - para ordenar/mostrar
     activities:[],//se guardan las act 
     detail: []
 }
@@ -31,6 +31,7 @@ export default function rootReducer(state = initialState, action){
             let result
             if(action.payload === 'All') result = state.copiaCountries
             result = act.filter((e) => e.activities[0]?.name === action.payload)
+            
             return{
                 ...state,
                 countries : result
@@ -74,7 +75,7 @@ export default function rootReducer(state = initialState, action){
             }
         case 'FILTER_BY_AREA':
             const area = action.payload === 'des' ? 
-            state.countries.sort((a,b) => a.area - b.area) :
+            state.countries.sort((a,b) => a.area - b.area) : 
             state.countries.sort((a,b) => b.area - a.area)
             return{
                 ...state,

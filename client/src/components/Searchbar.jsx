@@ -42,12 +42,3 @@ export default function SearchBar(){
 
 
 
-/* <div className="container">
-<input className="input"
-type='text'
-placeholder= 'Search..'
-onChange={(e)=> HandleChange(e)}>
-</input>
-<button className="searchButton" onClick={(e) => HandleSubmit(e)} type ="submit">Search</button>
-</div>
-); */
